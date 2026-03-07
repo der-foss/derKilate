@@ -10,30 +10,30 @@
 extern "C" {
 #endif
 
-typedef klt_vector klt_hashmap_vector;
-typedef klt_vector klt_hashitem_vector;
+typedef vector hashmap_vector;
+typedef vector hashitem_vector;
 
 typedef struct {
-  klt_hashitem_vector* itens;
+  hashitem_vector* itens;
   size_t itemSize;
   size_t capacity;
-} klt_hashmap;
+} hashmap;
 
 typedef struct {
-  klt_str key;
+  str key;
   void* value;
   void* next;
-} klt_hashitem;
+} hashitem;
 
-klt_hashmap* klt_hash_map_make(size_t);
+hashmap* hash_map_make(size_t);
 
-void klt_hash_map_delete(klt_hashmap*);
+void hash_map_delete(hashmap*);
 
-unsigned int klt_hash_map_hash(klt_hashmap*, klt_str);
+unsigned int hash_map_hash(hashmap*, str);
 
-void* klt_hash_map_get(klt_hashmap*, klt_str);
+void* hash_map_get(hashmap*, str);
 
-void klt_hash_map_put(klt_hashmap*, klt_str, void*);
+void hash_map_put(hashmap*, str, void*);
 
 #ifdef __cplusplus
 }

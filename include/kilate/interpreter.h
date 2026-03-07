@@ -12,29 +12,29 @@ extern "C" {
 #endif
 
 typedef struct {
-  klt_hashmap* functions;
-  klt_hashmap* native_functions;
-  klt_environment* env;
-} klt_interpreter;
+  hashmap* functions;
+  hashmap* native_functions;
+  environment* env;
+} interpreter;
 
-typedef enum { IRT_FUNC, IRT_RETURN } klt_interpreter_result_type;
+typedef enum { IRT_FUNC, IRT_RETURN } interpreter_result_type;
 
 typedef struct {
   void* data;
-  klt_interpreter_result_type type;
-} klt_interpreter_result;
+  interpreter_result_type type;
+} interpreter_result;
 
-klt_interpreter* klt_interpreter_make(klt_node_vector*, klt_node_vector*);
+interpreter* interpreter_make(node_vector*, node_vector*);
 
-void klt_interpreter_delete(klt_interpreter*);
+void interpreter_delete(interpreter*);
 
-klt_interpreter_result klt_interpreter_run(klt_interpreter*);
+interpreter_result interpreter_run(interpreter*);
 
-klt_interpreter_result klt_interpreter_run_fn(klt_interpreter*,
-                                              klt_node*,
-                                              klt_str_vector*);
+interpreter_result interpreter_run_fn(interpreter*,
+                                              node*,
+                                              str_vector*);
 
-klt_interpreter_result klt_interpreter_run_node(klt_interpreter*, klt_node*);
+interpreter_result interpreter_run_node(interpreter*, node*);
 
 #ifdef __cplusplus
 }

@@ -7,12 +7,12 @@
 extern "C" {
 #endif
 
-extern klt_vector* files;
-extern klt_vector* libs_directories;
-extern klt_vector* libs_native_directories;
+extern vector* files;
+extern vector* libs_directories;
+extern vector* libs_native_directories;
 
-void klt_config_init();
-void klt_config_end();
+void config_init();
+void config_end();
 
 #ifdef __cplusplus
 }

@@ -15,7 +15,7 @@ typedef enum {
   NODE_RETURN,
   NODE_VARDEC,
   NODE_IMPORT
-} klt_nodetype;
+} nodetype;
 
 typedef enum {
   NODE_VALUE_TYPE_INT,
@@ -27,70 +27,70 @@ typedef enum {
   NODE_VALUE_TYPE_FUNC,
   NODE_VALUE_TYPE_CALL,
   NODE_VALUE_TYPE_ANY
-} klt_node_valuetype;
+} node_valuetype;
 
-typedef struct klt_node klt_node;
-typedef klt_vector klt_node_vector;
+typedef struct node node;
+typedef vector node_vector;
 
 typedef struct {
-  klt_str value;
-  klt_node_valuetype type;
-} klt_node_fnparam;
+  str value;
+  node_valuetype type;
+} node_fnparam;
 
-typedef klt_vector klt_node_fnparam_vector;
+typedef vector node_fnparam_vector;
 
-struct klt_node {
-  klt_nodetype type;
+struct node {
+  nodetype type;
 
   struct {
-    klt_str fn_name;
-    klt_str fn_return_type;
-    klt_node_vector* fn_body;
-    klt_node_fnparam_vector* fn_params;
+    str fn_name;
+    str fn_return_type;
+    node_vector* fn_body;
+    node_fnparam_vector* fn_params;
   } function_n;
 
   struct {
-    klt_str fn_call_name;
-    klt_node_fnparam_vector* fn_call_params;
+    str fn_call_name;
+    node_fnparam_vector* fn_call_params;
   } call_n;
 
   struct {
-    klt_node_valuetype return_type;
+    node_valuetype return_type;
     void* return_value;
   } return_n;
 
   struct {
-    klt_str var_name;
-    klt_str var_type;
-    klt_node_valuetype var_value_type;
+    str var_name;
+    str var_type;
+    node_valuetype var_value_type;
     void* var_value;
   } vardec_n;
 
   struct {
-    klt_str import_path;
+    str import_path;
   } import_n;
 };
 
-void klt_node_delete(klt_node*);
+void node_delete(node*);
 
-klt_node* klt_node_copy(klt_node*);
+node* node_copy(node*);
 
-klt_node_fnparam* klt_node_fnparam_copy(klt_node_fnparam*);
+node_fnparam* node_fnparam_copy(node_fnparam*);
 
-void klt_node_delete_params(klt_node_fnparam_vector*);
+void node_delete_params(node_fnparam_vector*);
 
-klt_node* klt_function_node_make(klt_str,
-                                 klt_str,
-                                 klt_node_vector*,
-                                 klt_node_fnparam_vector*);
+node* function_node_make(str,
+                                 str,
+                                 node_vector*,
+                                 node_fnparam_vector*);
 
-klt_node* klt_call_node_make(klt_str, klt_node_fnparam_vector*);
+node* call_node_make(str, node_fnparam_vector*);
 
-klt_node* klt_return_node_make(klt_node_valuetype, void*);
+node* return_node_make(node_valuetype, void*);
 
-klt_node* klt_var_dec_node_make(klt_str, klt_str, klt_node_valuetype, void*);
+node* var_dec_node_make(str, str, node_valuetype, void*);
 
-klt_node* klt_import_node_make(klt_str);
+node* import_node_make(str);
 
 #ifdef __cplusplus
 }

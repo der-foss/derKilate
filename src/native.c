@@ -13,17 +13,17 @@
 #include "kilate/string.h"
 #include "kilate/vector.h"
 
-klt_node_vector* native_functions = NULL;
+node_vector* native_functions = NULL;
 
-void klt_native_init() {
-  native_functions = klt_vector_make(sizeof(klt_native_fnentry*));
-  klt_native_load_extern();
+void native_init() {
+  native_functions = vector_make(sizeof(native_fnentry*));
+  native_load_extern();
 }
 
-void klt_native_load_extern() {
+void native_load_extern() {
   // Load ALL Native Libs found
   for (size_t i = 0; i < libs_native_directories->size; i++) {
-    klt_str dir = *(klt_str*)klt_vector_get(libs_native_directories, i);
+    str dir = *(str*)vector_get(libs_native_directories, i);
     DIR* d = opendir(dir);
     if (!d)
       return;
@@ -53,37 +53,37 @@ void klt_native_load_extern() {
   }
 }
 
-void klt_native_end() {
+void native_end() {
   for (size_t i = 0; i < native_functions->size; ++i) {
-    klt_native_fnentry* entry =
-        *(klt_native_fnentry**)klt_vector_get(native_functions, i);
+    native_fnentry* entry =
+        *(native_fnentry**)vector_get(native_functions, i);
     free(entry->name);
     if (entry->requiredParams != NULL)
-      klt_vector_delete(entry->requiredParams);
+      vector_delete(entry->requiredParams);
     free(entry);
   }
-  klt_vector_delete(native_functions);
+  vector_delete(native_functions);
 }
 
-void klt_native_register_fnentry(klt_native_fnentry* entry) {
-  klt_vector_push_back(native_functions, &entry);
+void native_register_fnentry(native_fnentry* entry) {
+  vector_push_back(native_functions, &entry);
 }
 
-void klt_native_register_fn(klt_str name,
-                            klt_str_vector* requiredParams,
-                            klt_native_fn fn) {
-  klt_native_fnentry* entry = malloc(sizeof(klt_native_fnentry));
+void native_register_fn(str name,
+                            str_vector* requiredParams,
+                            native_fn fn) {
+  native_fnentry* entry = malloc(sizeof(native_fnentry));
   entry->name = strdup(name);
   entry->fn = fn;
   entry->requiredParams = requiredParams;
-  klt_native_register_fnentry(entry);
+  native_register_fnentry(entry);
 }
 
-klt_native_fnentry* klt_native_find_function(klt_str name) {
+native_fnentry* native_find_function(str name) {
   for (size_t i = 0; i < native_functions->size; ++i) {
-    klt_native_fnentry* entry =
-        *(klt_native_fnentry**)klt_vector_get(native_functions, i);
-    if (klt_str_equals(entry->name, name)) {
+    native_fnentry* entry =
+        *(native_fnentry**)vector_get(native_functions, i);
+    if (str_equals(entry->name, name)) {
       return entry;
     }
   }

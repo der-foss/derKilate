@@ -6,57 +6,57 @@
 #include "kilate/bool.h"
 #include "kilate/error.h"
 
-size_t klt_str_length(klt_str str) {
+size_t str_length(const char *s) {
   size_t len = 0;
-  while (str[len] != '\0') {
+  while (s[len] != '\0') {
     len++;
   }
   return len;
 }
 
-klt_bool klt_str_starts_with(klt_str str, klt_str startWith, size_t offset) {
-  if (strncmp(str + offset, startWith, klt_str_length(startWith)) == 0) {
+bool str_starts_with(const char *s, const char *startWith, size_t offset) {
+  if (strncmp(s + offset, startWith, str_length(startWith)) == 0) {
     return true;
   }
   return false;
 }
 
-size_t klt_str_index_of(const klt_str str, char ch, size_t offset) {
-  klt_str ptr = strchr(str + offset, ch);
+size_t str_index_of(const char* s, char ch, size_t offset) {
+  char *ptr = strchr(s + offset, ch);
   if (ptr == NULL) {
-    printf("Failed to get index of string %s\n", str);
+    printf("Failed to get index of string %s\n", s);
     return SIZE_MAX;
   }
-  return ptr - str;
+  return ptr - s;
 }
 
-klt_str klt_str_substring(const klt_str str, size_t start, size_t end) {
-  if (!str || start > end || end > klt_str_length(str)) {
+char *str_substring(const char *s, size_t start, size_t end) {
+  if (!s || start > end || end > str_length(s)) {
     return NULL;
   }
 
   size_t len = end - start;
-  klt_str result = malloc(len + 1);
+  char *result = malloc(len + 1);
   if (!result)
     return NULL;
 
-  memcpy(result, str + start, len);
+  memcpy(result, s + start, len);
   result[len] = '\0';
   return result;
 }
 
-klt_bool klt_str_equals(const klt_str str, const klt_str other) {
-  if (strcmp(str, other) == 0) {
+bool str_equals(const char *s, const char *other) {
+  if (strcmp(s, other) == 0) {
     return true;
   }
   return false;
 }
 
-void klt_str_concat(klt_str dest, const klt_str toConcat) {
+void str_concat(char *dest, const char *toConcat) {
   strcat(dest, toConcat);
 }
 
-int klt_str_to_int(const klt_str src) {
+int str_to_int(const char *src) {
   int num = 0;
   size_t i = 0;
   int sign = 1;
@@ -66,7 +66,7 @@ int klt_str_to_int(const klt_str src) {
     i = 1;
   }
 
-  for (; i < klt_str_length(src); ++i) {
+  for (; i < str_length(src); ++i) {
     if (src[i] >= '0' && src[i] <= '9') {
       num = num * 10 + (src[i] - '0');
     } else {
@@ -77,26 +77,26 @@ int klt_str_to_int(const klt_str src) {
   return sign * num;
 }
 
-float klt_str_to_float(klt_str s) {
+float str_to_float(const char *s) {
   if (s == NULL)
     return 0.0f;
   return strtof(s, NULL);
 }
 
-long klt_str_to_long(klt_str s) {
+long str_to_long(const char *s) {
   if (s == NULL)
     return 0;
   return strtol(s, NULL, 10);
 }
 
-klt_str klt_str_format(const klt_str fmt, ...) {
+char *str_format(const char *fmt, ...) {
   va_list args;
   va_start(args, fmt);
 
   size_t len = vsnprintf(NULL, 0, fmt, args);
   va_end(args);
 
-  klt_str buffer = malloc(len + 1);
+  char *buffer = malloc(len + 1);
   if (!buffer)
     return NULL;
 

@@ -12,35 +12,35 @@ extern "C" {
 #endif
 
 typedef struct {
-  klt_environment* env;
-  klt_node_fnparam_vector* params;
-} klt_native_fndata;
+  environment* env;
+  node_fnparam_vector* params;
+} native_fndata;
 
-typedef klt_node* (*klt_native_fn)(klt_native_fndata*);
+typedef node* (*native_fn)(native_fndata*);
 
 typedef struct {
-  klt_str name;
-  klt_str_vector* requiredParams;
-  klt_native_fn fn;
-} klt_native_fnentry;
+  str name;
+  str_vector* requiredParams;
+  native_fn fn;
+} native_fnentry;
 
 #define KILATE_NATIVE_REGISTER() void KILATE_NATIVE_REGISTER()
 
-extern klt_node_vector* native_functions;
+extern node_vector* native_functions;
 
-void klt_native_init();
+void native_init();
 
-void klt_native_load_extern();
+void native_load_extern();
 
-void klt_native_end();
+void native_end();
 
-void klt_native_register_fnentry(klt_native_fnentry*);
+void native_register_fnentry(native_fnentry*);
 
-void klt_native_register_fn(klt_str, klt_str_vector*, klt_native_fn);
+void native_register_fn(str, str_vector*, native_fn);
 
-klt_native_fnentry* klt_native_find_function(klt_str);
+native_fnentry* native_find_function(str);
 
-void klt_native_register_all_functions();
+void native_register_all_functions();
 
 #ifdef __cplusplus
 }

@@ -9,29 +9,29 @@
 extern "C" {
 #endif
 
-typedef struct klt_env_entry {
-  klt_str name;
-  klt_node* value;
-  struct klt_env_entry* next;
-} klt_env_entry;
+typedef struct env_entry {
+  str name;
+  node* value;
+  struct env_entry* next;
+} env_entry;
 
-typedef struct klt_environment {
-  klt_env_entry* variables;
-  struct klt_environment* parent;
-} klt_environment;
+typedef struct environment {
+  env_entry* variables;
+  struct environment* parent;
+} environment;
 
-klt_environment* klt_environment_make(klt_environment* parent);
+environment* environment_make(environment* parent);
 
-void klt_environment_destroy(klt_environment* env);
+void environment_destroy(environment* env);
 
-klt_bool klt_environment_definevar(klt_environment* env,
-                                   const klt_str name,
+bool environment_definevar(environment* env,
+                                   const str name,
                                    void* value);
 
-klt_node* klt_environment_getvar(klt_environment* env, const klt_str name);
+node* environment_getvar(environment* env, const str name);
 
-klt_bool klt_environment_setvar(klt_environment* env,
-                                const klt_str name,
+bool environment_setvar(environment* env,
+                                const str name,
                                 void* value);
 
 #ifdef __cplusplus

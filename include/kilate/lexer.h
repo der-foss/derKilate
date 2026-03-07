@@ -31,42 +31,42 @@ typedef enum {
   TOKEN_VAR,         // var
   TOKEN_LET,         // let
   TOKEN_EOF          // end of file.
-} klt_token_type;
+} token_type;
 
 typedef struct {
-  klt_token_type type;
-  klt_str text;
+  token_type type;
+  str text;
 
   size_t column;
   size_t line;
-} klt_token;
+} token;
 
-typedef klt_vector klt_token_vector;
+typedef vector token_vector;
 
-klt_token* klt_token_make(klt_token_type, klt_str, size_t, size_t);
+token* token_make(token_type, str, size_t, size_t);
 
-klt_str klt_tokentype_tostr(klt_token_type);
+str tokentype_tostr(token_type);
 
 typedef struct {
-  klt_str __input__;
-  klt_token_vector* tokens;
+  str __input__;
+  token_vector* tokens;
 
   size_t __pos__;
   size_t __column__;
   size_t __line__;
-} klt_lexer;
+} lexer;
 
-klt_lexer* klt_lexer_make(klt_str);
+lexer* lexer_make(str);
 
-void klt_lexer_delete(klt_lexer*);
+void lexer_delete(lexer*);
 
-void klt_lexer_advance(klt_lexer*);
+void lexer_advance(lexer*);
 
-klt_str klt_lexer_read_string(klt_lexer*, klt_bool*);
+str lexer_read_string(lexer*, bool*);
 
-void klt_lexer_tokenize(klt_lexer*);
+void lexer_tokenize(lexer*);
 
-void klt_lexer_error(klt_lexer*, klt_str, ...);
+void lexer_error(lexer*, str, ...);
 
 #ifdef __cplusplus
 }
