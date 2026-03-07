@@ -3,12 +3,12 @@ require "./nativelib.rb"
 
 install_arg = false
 run_arg = false
-
 termux_arg = false
 asan_arg = false
 clean_arg = false
 lib_so_arg = false
 nostd_arg = false
+compile_commands_json_arg = false
 
 YELLOW = "\e[33m"
 LGREEN = "\e[92m"
@@ -26,14 +26,15 @@ def print_help_and_close
   puts
   puts "Usage Make.rb <option>"
   puts "Options:"
-  puts "#{LGREEN}-i    or --install #{LMAGENTA}| Compile and install."
-  puts "#{LGREEN}-r    or --run     #{LMAGENTA}| Compile and run."
-  puts "#{LGREEN}-t    or --termux  #{LMAGENTA}| [USE WITH -r] Compile and run it fixing termux restrictions."
-  puts "#{LGREEN}-h    or --help    #{LMAGENTA}| Prints help."
-  puts "#{LGREEN}-as   or --asan    #{LMAGENTA}| Enables Address Sanitizer."
-  puts "#{LGREEN}-c    or --clean   #{LMAGENTA}| Cleanup build before build again."
-  puts "#{LGREEN}-lso  or --libso   #{LMAGENTA}| Build shared libraries for Android ABIs."
-  puts "#{LGREEN}-free or  -nostd   #{LMAGENTA}| Don't build the KStandardLibrary."
+  puts "#{LGREEN}-i    or --install               #{LMAGENTA}| Compile and install."
+  puts "#{LGREEN}-r    or --run                   #{LMAGENTA}| Compile and run."
+  puts "#{LGREEN}-t    or --termux                #{LMAGENTA}| [USE WITH -r] Compile and run it fixing termux restrictions."
+  puts "#{LGREEN}-h    or --help                  #{LMAGENTA}| Prints help."
+  puts "#{LGREEN}-as   or --asan                  #{LMAGENTA}| Enables Address Sanitizer."
+  puts "#{LGREEN}-c    or --clean                 #{LMAGENTA}| Cleanup build before build again."
+  puts "#{LGREEN}-lso  or --libso                 #{LMAGENTA}| Build shared libraries for Android ABIs."
+  puts "#{LGREEN}-free or  -nostd                 #{LMAGENTA}| Don't build the KStandardLibrary."
+  puts "#{LGREEN}-ccj  or --compile-commands-json #{LMAGENTA}| Export compile_commands.json."
   puts
   puts "#{YELLOW}WARNING"
   puts "Don't use install and run command together.#{RESET}"
@@ -56,6 +57,8 @@ ARGV.each do |arg|
       lib_so_arg = true
     when "-free", "--nostd"
       nostd_arg = true
+    when "-ccj", "--compile-commands-json"
+      compile_commands_json_arg = true
     when "-h", "--help"
       print_help_and_close
     else
@@ -65,10 +68,7 @@ end
 
 ENV["ASAN"] = "ON" if asan_arg
 
-if clean_arg
-  FileUtils.rm_rf("build")
-end
-
+FileUtils.rm_rf("build") if clean_arg
 FileUtils.mkdir_p("build")
 
 # Build Std Native
@@ -87,6 +87,7 @@ if lib_so_arg
       "cmake -B #{build_dir} " \
       "-DASAN=#{asan_arg ? "ON" : "OFF"} " \
       "-DINSTALL=#{install_arg ? "ON" : "OFF"} " \
+      "-DCMAKE_EXPORT_COMPILE_COMMANDS=#{compile_commands_json_arg ? "ON" : "OFF"} " \
       "-DCMAKE_TOOLCHAIN_FILE=$ANDROID_NDK/build/cmake/android.toolchain.cmake " \
       "-DANDROID_ABI=#{abi} " \
       "-DANDROID_PLATFORM=android-26 " \
@@ -99,9 +100,14 @@ else
     "cmake -B build " \
     "-DASAN=#{asan_arg ? "ON" : "OFF"} " \
     "-DINSTALL=#{install_arg ? "ON" : "OFF"} " \
+    "-DCMAKE_EXPORT_COMPILE_COMMANDS=#{compile_commands_json_arg ? "ON" : "OFF"} " \
     "-DCMAKE_INSTALL_PREFIX=$HOME/../usr"
   )
   run("cmake --build build")
+end
+
+if compile_commands_json_arg
+  FileUtils.cp("build/compile_commands.json", "./")
 end
 
 if install_arg
