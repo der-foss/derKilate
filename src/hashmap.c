@@ -7,36 +7,36 @@
 #include "kilate/error.h"
 #include "kilate/string.h"
 
-klt_hashmap* klt_hash_map_make(size_t itemSize) {
-  klt_hashmap* hashMap = malloc(sizeof(klt_hashmap));
+hashmap* hash_map_make(size_t itemSize) {
+  hashmap* hashMap = malloc(sizeof(hashmap));
   hashMap->itemSize = itemSize;
   hashMap->capacity = 64;
-  hashMap->itens = klt_vector_make(sizeof(klt_hashitem*));
+  hashMap->itens = vector_make(sizeof(hashitem*));
   for (size_t i = 0; i < hashMap->capacity; i++) {
-    klt_hashitem* null_ptr = NULL;
-    klt_vector_push_back(hashMap->itens, &null_ptr);
+    hashitem* null_ptr = NULL;
+    vector_push_back(hashMap->itens, &null_ptr);
   }
   return hashMap;
 }
 
-void klt_hash_map_delete(klt_hashmap* self) {
+void hash_map_delete(hashmap* self) {
   for (size_t i = 0; i < self->itens->size; ++i) {
-    klt_hashitem* item = *(klt_hashitem**)klt_vector_get(self->itens, i);
+    hashitem* item = *(hashitem**)vector_get(self->itens, i);
     if (item != NULL) {
       free(item->key);
       free(item->value);
       free(item);
     }
   }
-  klt_vector_delete(self->itens);
+  vector_delete(self->itens);
   free(self);
 }
 
-unsigned int klt_hash_map_hash(klt_hashmap* self, klt_str key) {
+unsigned int hash_map_hash(hashmap* self, str key) {
   if (self == NULL)
-    klt_error_fatal("Hashmap is null.");
+    error_fatal("Hashmap is null.");
   if (key == NULL)
-    klt_error_fatal("Key is null.");
+    error_fatal("Key is null.");
 
   unsigned int hash = 5381;
   int c;
@@ -45,19 +45,19 @@ unsigned int klt_hash_map_hash(klt_hashmap* self, klt_str key) {
   }
   return hash % self->capacity;
 }
-void* klt_hash_map_get(klt_hashmap* self, klt_str key) {
+void* hash_map_get(hashmap* self, str key) {
   if (self == NULL)
-    klt_error_fatal("Hashmap is null.");
+    error_fatal("Hashmap is null.");
   if (key == NULL)
-    klt_error_fatal("Key is null.");
+    error_fatal("Key is null.");
 
-  unsigned int index = klt_hash_map_hash(self, key);
+  unsigned int index = hash_map_hash(self, key);
 
-  klt_hashitem** itemPtr = (klt_hashitem**)klt_vector_get(self->itens, index);
-  klt_hashitem* item = *itemPtr;
+  hashitem** itemPtr = (hashitem**)vector_get(self->itens, index);
+  hashitem* item = *itemPtr;
 
   while (item) {
-    if (klt_str_equals(item->key, key)) {
+    if (str_equals(item->key, key)) {
       return item->value;
     }
     item = item->next;
@@ -65,26 +65,26 @@ void* klt_hash_map_get(klt_hashmap* self, klt_str key) {
   return NULL;
 }
 
-void klt_hash_map_put(klt_hashmap* self, klt_str key, void* value) {
+void hash_map_put(hashmap* self, str key, void* value) {
   if (self == NULL)
-    klt_error_fatal("Hashmap is null.");
+    error_fatal("Hashmap is null.");
   if (key == NULL)
-    klt_error_fatal("Key is null.");
+    error_fatal("Key is null.");
 
-  unsigned int index = klt_hash_map_hash(self, key);
-  klt_hashitem** headPtr = (klt_hashitem**)klt_vector_get(self->itens, index);
-  klt_hashitem* head = *headPtr;
+  unsigned int index = hash_map_hash(self, key);
+  hashitem** headPtr = (hashitem**)vector_get(self->itens, index);
+  hashitem* head = *headPtr;
 
-  klt_hashitem* item = head;
+  hashitem* item = head;
   while (item) {
-    if (klt_str_equals(item->key, key)) {
+    if (str_equals(item->key, key)) {
       memcpy(item->value, value, self->itemSize);
       return;
     }
     item = item->next;
   }
 
-  klt_hashitem* newItem = malloc(sizeof(klt_hashitem));
+  hashitem* newItem = malloc(sizeof(hashitem));
   newItem->key = strdup(key);
   newItem->value = malloc(self->itemSize);
   memcpy(newItem->value, value, self->itemSize);

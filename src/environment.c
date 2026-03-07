@@ -7,26 +7,26 @@
 #include "kilate/error.h"
 #include "kilate/string.h"
 
-klt_environment* klt_environment_make(klt_environment* parent) {
-  klt_environment* env = malloc(sizeof(klt_environment));
+environment* environment_make(environment* parent) {
+  environment* env = malloc(sizeof(environment));
   if (env == NULL)
-    klt_error_fatal("Failed to allocate environment");
+    error_fatal("Failed to allocate environment");
 
   env->variables = NULL;
   env->parent = parent;
   return env;
 }
 
-void klt_environment_destroy(klt_environment* env) {
+void environment_destroy(environment* env) {
   if (env == NULL)
     return;
 
-  klt_env_entry* current = env->variables;
+  env_entry* current = env->variables;
   while (current) {
-    klt_env_entry* next = current->next;
+    env_entry* next = current->next;
     free(current->name);
     if (current->value) {
-      klt_node_delete((klt_node*)current->value);
+      node_delete((node*)current->value);
     }
     free(current);
     current = next;
@@ -35,21 +35,21 @@ void klt_environment_destroy(klt_environment* env) {
   free(env);
 }
 
-klt_bool klt_environment_definevar(klt_environment* env,
-                                   const klt_str name,
+bool environment_definevar(environment* env,
+                                   const str name,
                                    void* value) {
   if (env == NULL || name == NULL)
-    klt_error_fatal("Environment or name is null.");
+    error_fatal("Environment or name is null.");
 
-  klt_env_entry* current = env->variables;
+  env_entry* current = env->variables;
   while (current) {
-    if (klt_str_equals(current->name, name)) {
+    if (str_equals(current->name, name)) {
       return false;
     }
     current = current->next;
   }
 
-  klt_env_entry* new_entry = malloc(sizeof(klt_env_entry));
+  env_entry* new_entry = malloc(sizeof(env_entry));
   if (!new_entry)
     return false;
 
@@ -61,13 +61,13 @@ klt_bool klt_environment_definevar(klt_environment* env,
   return true;
 }
 
-klt_node* klt_environment_getvar(klt_environment* env, const klt_str name) {
+node* environment_getvar(environment* env, const str name) {
   if (env == NULL || name == NULL)
-    klt_error_fatal("Environment or name is null.");
+    error_fatal("Environment or name is null.");
 
-  klt_environment* current_env = env;
+  environment* current_env = env;
   while (current_env) {
-    klt_env_entry* current = current_env->variables;
+    env_entry* current = current_env->variables;
     while (current) {
       if (strcmp(current->name, name) == 0) {
         return current->value;
@@ -80,15 +80,15 @@ klt_node* klt_environment_getvar(klt_environment* env, const klt_str name) {
   return NULL;
 }
 
-klt_bool klt_environment_setvar(klt_environment* env,
-                                const klt_str name,
+bool environment_setvar(environment* env,
+                                const str name,
                                 void* value) {
   if (env == NULL || name == NULL)
-    klt_error_fatal("Environment or name is null.");
+    error_fatal("Environment or name is null.");
 
-  klt_environment* current_env = env;
+  environment* current_env = env;
   while (current_env) {
-    klt_env_entry* current = current_env->variables;
+    env_entry* current = current_env->variables;
     while (current) {
       if (strcmp(current->name, name) == 0) {
         current->value = value;

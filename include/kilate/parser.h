@@ -14,47 +14,47 @@ extern "C" {
 #endif
 
 typedef struct {
-  klt_token_vector* tokens;
-  klt_node_vector* nodes;
+  token_vector* tokens;
+  node_vector* nodes;
   size_t __pos__;
-} klt_parser;
+} parser;
 
-klt_parser* klt_parser_make(klt_token_vector*);
+parser* parser_make(token_vector*);
 
-void klt_parser_delete(klt_parser*);
+void parser_delete(parser*);
 
-void klt_parser_delete_params(klt_str_vector*);
+void parser_delete_params(str_vector*);
 
-klt_token* klt_parser_consume(klt_parser*, klt_token_type);
+token* parser_consume(parser*, token_type);
 
-klt_node* klt_parser_find_function(klt_parser*, klt_str);
+node* parser_find_function(parser*, str);
 
-klt_str klt_parser_tokentype_to_str(klt_token_type);
+str parser_tokentype_to_str(token_type);
 
-klt_str klt_parser_nodevaluetype_to_str(klt_node_valuetype);
+str parser_nodevaluetype_to_str(node_valuetype);
 
-klt_node_valuetype klt_parser_tokentype_to_nodevaluetype(klt_parser*,
-                                                         klt_token*);
+node_valuetype parser_tokentype_to_nodevaluetype(parser*,
+                                                         token*);
 
-klt_node_valuetype klt_parser_str_to_nodevaluetype(klt_str);
+node_valuetype parser_str_to_nodevaluetype(str);
 
-klt_node* klt_parser_parse_statement(klt_parser*);
+node* parser_parse_statement(parser*);
 
-klt_node_fnparam_vector* klt_parser_parse_fnparams(klt_parser* parser);
+node_fnparam_vector* parser_parse_fnparams(parser* parser);
 
-void klt_parser_fn_validate_params(klt_node*,
-                                   klt_node_fnparam_vector*,
-                                   klt_token*);
+void parser_fn_validate_params(node*,
+                                   node_fnparam_vector*,
+                                   token*);
 
-klt_node* klt_parser_parse_call_node(klt_parser*, klt_token*);
+node* parser_parse_call_node(parser*, token*);
 
-klt_node* klt_parser_parse_import(klt_parser*);
+node* parser_parse_import(parser*);
 
-void klt_parser_parse_program(klt_parser*);
+void parser_parse_program(parser*);
 
-klt_node* klt_parser_parse_function(klt_parser*);
+node* parser_parse_function(parser*);
 
-void klt_parser_error(klt_token*, klt_str, ...);
+void parser_error(token*, str, ...);
 
 #ifdef __cplusplus
 }

@@ -11,28 +11,28 @@
 extern "C" {
 #endif
 
-typedef char* klt_str;
-typedef klt_vector klt_str_vector;
+typedef char *str;
+typedef vector str_vector;
 
-size_t klt_str_length(const klt_str);
+size_t str_length(const char *);
 
-klt_bool klt_str_starts_with(const klt_str, const klt_str, size_t);
+bool str_starts_with(const char *, const char *, size_t);
 
-size_t klt_str_index_of(const klt_str, char, size_t);
+size_t str_index_of(const char *, char, size_t);
 
-klt_str klt_str_substring(const klt_str, size_t, size_t);
+char * str_substring(const char *, size_t, size_t);
 
-klt_bool klt_str_equals(const klt_str, const klt_str);
+bool str_equals(const char *, const char *);
 
-void klt_str_concat(klt_str, klt_str);
+void str_concat(char *, const char *);
 
-int klt_str_to_int(klt_str);
+int str_to_int(const char *);
 
-float klt_str_to_float(klt_str);
+float str_to_float(const char *);
 
-long klt_str_to_long(klt_str);
+long str_to_long(const char *);
 
-klt_str klt_str_format(const klt_str, ...);
+char * str_format(const char *, ...);
 
 #ifdef __cplusplus
 }

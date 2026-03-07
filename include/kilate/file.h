@@ -14,16 +14,16 @@ extern "C" {
 
 typedef struct {
   FILE* std_file;
-  klt_str path;
-} klt_file;
+  str path;
+} file;
 
-klt_file* klt_file_open(klt_str, klt_str);
+file* file_open(str, str);
 
-void klt_file_close(klt_file*);
+void file_close(file*);
 
-size_t klt_file_get_length(klt_file*);
+size_t file_get_length(file*);
 
-klt_str klt_file_read_text(klt_file*);
+str file_read_text(file*);
 
 #ifdef __cplusplus
 }

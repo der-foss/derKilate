@@ -1,2 +1,4 @@
 build/
 ncurses.h
+.cache/
+.ruby-lsp/

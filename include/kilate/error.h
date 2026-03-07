@@ -9,7 +9,7 @@
 extern "C" {
 #endif
 
-void klt_error_fatal(klt_str, ...);
+void error_fatal(str, ...);
 
 #ifdef __cplusplus
 }

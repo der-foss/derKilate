@@ -5,33 +5,33 @@
 #include "kilate/string.h"
 #include "kilate/vector.h"
 
-klt_vector* files = NULL;
-klt_vector* libs_directories = NULL;
-klt_vector* libs_native_directories = NULL;
+vector* files = NULL;
+vector* libs_directories = NULL;
+vector* libs_native_directories = NULL;
 
-void klt_config_init() {
-  files = klt_vector_make(sizeof(klt_str));
-  libs_directories = klt_vector_make(sizeof(klt_str));
-  libs_native_directories = klt_vector_make(sizeof(klt_str));
+void config_init() {
+  files = vector_make(sizeof(str));
+  libs_directories = vector_make(sizeof(str));
+  libs_native_directories = vector_make(sizeof(str));
 }
 
-void klt_config_end() {
+void config_end() {
   for (size_t i = 0; i < files->size; ++i) {
-    klt_str filename = *(klt_str*)klt_vector_get(files, i);
+    str filename = *(str*)vector_get(files, i);
     free(filename);
   }
 
   for (size_t i = 0; i < libs_directories->size; ++i) {
-    klt_str lib = *(klt_str*)klt_vector_get(libs_directories, i);
+    str lib = *(str*)vector_get(libs_directories, i);
     free(lib);
   }
 
   for (size_t i = 0; i < libs_native_directories->size; ++i) {
-    klt_str lib = *(klt_str*)klt_vector_get(libs_native_directories, i);
+    str lib = *(str*)vector_get(libs_native_directories, i);
     free(lib);
   }
 
-  klt_vector_delete(libs_directories);
-  klt_vector_delete(libs_native_directories);
-  klt_vector_delete(files);
+  vector_delete(libs_directories);
+  vector_delete(libs_native_directories);
+  vector_delete(files);
 }
