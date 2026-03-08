@@ -52,7 +52,7 @@ int run(int argc, char *argv[])
 
         if (str_equals(argv[1], "help")) {
                 printf("Usage:\n");
-                printf("  %s run <file(s)> [-I<path>] [-l<lib>]\n", argv[0]);
+                printf("  %s run <mainfile> [-I<path>] [-l<lib>]\n", argv[0]);
                 printf("Options:\n");
                 printf("  -L<path>    Kilate Libraries path\n");
                 printf("  -LN<path>   Kilate Native Libraries path\n");
@@ -69,6 +69,8 @@ int run(int argc, char *argv[])
                        argv[0]);
                 return -1;
         }
+
+        
 
         // Config
         {
@@ -88,7 +90,8 @@ int run(int argc, char *argv[])
                 }
         }
 
-        for (int i = 2; i < argc; i++) {
+        char *filename = argv[2];
+        for (int i = 3; i < argc; i++) {
                 char *arg = argv[i];
                 if (arg[0] == '-') {
                         if (strncmp(arg, "-LN", 3) == 0) {
@@ -102,41 +105,24 @@ int run(int argc, char *argv[])
                                 printf("Unknown option: %s\n", arg);
                                 return -1;
                         }
-                } else {
-                        char *dup = strdup(arg);
-                        vector_push_back(files, &dup);
                 }
         }
 
-        if (files->size == 0) {
-                error_fatal("No input provided.");
+        file_t file;
+        if (file_open(&file, filename, FILE_MODE_READ) != 0) {
+                error_fatal("Failed to open %s", filename);
                 return -1;
         }
-
-        for (size_t i = 0; i < files->size; ++i) {
-                char *filename = *(char **)vector_get(files, i);
-
-                file_t file;
-                file_open(&file, filename, FILE_MODE_READ);
-
-                char *src = file_read_text(&file);
-                if (!src) {
-                        error_fatal("Failed to read %s", filename);
-                        return -1;
-                }
-
-                if (files->size > 1)
-                        printf("------%s------\n", filename);
-
-                bool interRes = interpret(src);
-                free(src);
-                file_close(&file);
-
-                if (!interRes)
-                        return -1;
+        char *src = file_read_text(&file);
+        if (!src) {
+                error_fatal("Failed to read %s", filename);
+                return -1;
         }
+        file_close(&file);
 
-        return 0;
+        int res = interpret(src);
+        free(src);
+        return res;
 }
 
 int main(int argc, char *argv[])
