@@ -3,20 +3,23 @@
 
 #include <stdio.h>
 
-#define FILE_MODE_READ "r"
-#define FILE_MODE_WRITE "w"
-
 #ifdef __cplusplus
 extern "C" {
 #endif
 
+typedef enum file_mode_t {
+        FILE_MODE_READ,
+        FILE_MODE_WRITE,
+        FILE_MODE_RW
+} file_mode_t;
+
 typedef struct file_t {
-        FILE *std_file;
+        int fd;
 } file_t;
 
-file_t *file_open(const char *, const char *);
+int file_open(file_t *, const char *, file_mode_t);
 
-void file_close(file_t *);
+int file_close(file_t *);
 
 size_t file_get_length(file_t *);
 

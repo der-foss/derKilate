@@ -112,13 +112,11 @@ bool run(int argc, char *argv[])
 
         for (size_t i = 0; i < files->size; ++i) {
                 char *filename = *(char **)vector_get(files, i);
-                file_t *file = file_open(filename, FILE_MODE_READ);
-                if (!file) {
-                        error_fatal("Failed to open %s", filename);
-                        return false;
-                }
 
-                char *src = file_read_text(file);
+                file_t file;
+                file_open(&file, filename, FILE_MODE_READ);
+
+                char *src = file_read_text(&file);
                 if (!src) {
                         error_fatal("Failed to read %s", filename);
                         return false;
@@ -129,7 +127,7 @@ bool run(int argc, char *argv[])
 
                 bool interRes = interpret(src);
                 free(src);
-                file_close(file);
+                file_close(&file);
 
                 if (!interRes)
                         return false;
