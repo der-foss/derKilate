@@ -503,13 +503,10 @@ node_t *parser_parse_import(parser_t *p)
         parser_consume(p, TOKEN_KEYWORD);
         token_t *path_token = parser_consume(p, TOKEN_STRING);
 
-        file_t *file = file_open(path_token->text, FILE_MODE_READ);
-        if (!file) {
-                parser_error(path_token, "Failed to import file: %s",
-                             path_token->text);
-        }
+        file_t file;
+        file_open(&file, path_token->text, FILE_MODE_READ);
 
-        char *src = file_read_text(file);
+        char *src = file_read_text(&file);
         if (!src) {
                 parser_error(path_token, "Failed to read import: %s",
                              path_token->text);
@@ -532,7 +529,7 @@ node_t *parser_parse_import(parser_t *p)
 
         parser_delete(new_parser);
         lexer_delete(lexer);
-        file_close(file);
+        file_close(&file);
         free(src);
 
         return NULL;
