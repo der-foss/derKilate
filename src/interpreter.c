@@ -201,7 +201,10 @@ interpreter_result_t interpreter_run_node(interpreter_t *self, node_t *n)
                 }
 
                 function_node_t *fn = *fnptr;
-                return interpreter_run_fnlow(self, fn, n->call_n.args);
+                interpreter_result_t r =
+                    interpreter_run_fnlow(self, fn, n->call_n.args);
+                return (interpreter_result_t){ .type = IRT_FUNC,
+                                               .value = r.value };
         }
 
         case NODE_RETURN: {
