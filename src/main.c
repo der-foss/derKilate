@@ -1,15 +1,15 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "derMate/config.h"
-#include "derMate/error.h"
-#include "derMate/file.h"
-#include "derMate/interpreter.h"
-#include "derMate/lexer.h"
-#include "derMate/native.h"
-#include "derMate/parser.h"
-#include "derMate/string.h"
-#include "derMate/vector.h"
+#include "mate/config.h"
+#include "mate/error.h"
+#include "mate/file.h"
+#include "mate/interpreter.h"
+#include "mate/lexer.h"
+#include "mate/native.h"
+#include "mate/parser.h"
+#include "mate/string.h"
+#include "mate/vector.h"
 
 int interpret(char *src)
 {
@@ -54,8 +54,8 @@ int run(int argc, char *argv[])
                 printf("Usage:\n");
                 printf("  %s run <mainfile> [-I<path>] [-l<lib>]\n", argv[0]);
                 printf("Options:\n");
-                printf("  -L<path>    derMate Libraries path\n");
-                printf("  -LN<path>   derMate Native Libraries path\n");
+                printf("  -L<path>    Mate Libraries path\n");
+                printf("  -LN<path>   Mate Native Libraries path\n");
                 return 0;
         }
 
@@ -77,13 +77,13 @@ int run(int argc, char *argv[])
                 const char *PREFIX = getenv("PREFIX");
                 if (PREFIX != NULL) {
                         char path[512];
-                        snprintf(path, sizeof(path), "%s/derMate/native_libs/",
+                        snprintf(path, sizeof(path), "%s/mate/native_libs/",
                                  PREFIX);
                         char *dup = strdup(path);
                         vector_push_back(libs_native_directories, &dup);
 
                         memset(path, 0, sizeof(path));
-                        snprintf(path, sizeof(path), "%s/derMate/libs/",
+                        snprintf(path, sizeof(path), "%s/mate/libs/",
                                  PREFIX);
                         dup = strdup(path);
                         vector_push_back(libs_directories, &dup);

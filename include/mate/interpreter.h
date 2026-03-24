@@ -1,10 +1,10 @@
 #ifndef __INTERPRETER_H__
 #define __INTERPRETER_H__
 
-#include "derMate/environment.h"
-#include "derMate/hashmap.h"
-#include "derMate/node.h"
-#include "derMate/string.h"
+#include "mate/environment.h"
+#include "mate/hashmap.h"
+#include "mate/node.h"
+#include "mate/string.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -32,11 +32,11 @@ void interpreter_delete(interpreter_t *);
 interpreter_result_t interpreter_run(interpreter_t *);
 
 // Low function node runner
-// it will call interpreter_run_fn for derMate Functions.
+// it will call interpreter_run_fn for Mate Functions.
 // and runs directly for native functions.
 interpreter_result_t interpreter_run_fnlow(interpreter_t *, node_t *, node_arg_vector_t *);
 
-// Runs a derMate Node
+// Runs a Mate Node
 interpreter_result_t interpreter_run_fn(interpreter_t *, node_t *,
                                         node_arg_vector_t *);
 

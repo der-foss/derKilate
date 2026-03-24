@@ -1,4 +1,4 @@
-#include "derMate/file.h"
+#include "mate/file.h"
 
 #include <errno.h>
 #include <fcntl.h>
@@ -9,8 +9,8 @@
 #include <sys/types.h>
 #include <unistd.h>
 
-#include "derMate/error.h"
-#include "derMate/string.h"
+#include "mate/error.h"
+#include "mate/string.h"
 
 // Opens a file
 // After do all uses with file, close it

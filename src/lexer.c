@@ -1,4 +1,4 @@
-#include "derMate/lexer.h"
+#include "mate/lexer.h"
 
 #include <ctype.h>
 #include <stdarg.h>
@@ -8,8 +8,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "derMate/bool.h"
-#include "derMate/string.h"
+#include "mate/bool.h"
+#include "mate/string.h"
 
 lexer_t *lexer_make(char *input)
 {
@@ -389,13 +389,13 @@ void lexer_tokenize(lexer_t *lexer)
         vector_push_back(lexer->tokens, &token);
 }
 
-void lexer_error(lexer_t *lexer, char *fderMate, ...)
+void lexer_error(lexer_t *lexer, char *fmate, ...)
 {
         va_list args;
-        va_start(args, fderMate);
+        va_start(args, fmate);
         fprintf(stderr, "[Error at %zu:%zu] ", lexer->__line__,
                 lexer->__column__);
-        vprintf(fderMate, args);
+        vprintf(fmate, args);
         printf("\n");
         va_end(args);
         exit(1);

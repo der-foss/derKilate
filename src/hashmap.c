@@ -1,11 +1,11 @@
-#include "derMate/hashmap.h"
+#include "mate/hashmap.h"
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-#include "derMate/error.h"
-#include "derMate/string.h"
+#include "mate/error.h"
+#include "mate/string.h"
 
 hashmap_t *hash_map_make(size_t itemSize)
 {

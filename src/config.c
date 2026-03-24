@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "derMate/config.h"
-#include "derMate/vector.h"
+#include "mate/config.h"
+#include "mate/vector.h"
 
 vector_t *libs_directories = NULL;
 vector_t *libs_native_directories = NULL;

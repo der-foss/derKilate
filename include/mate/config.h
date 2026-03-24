@@ -1,7 +1,7 @@
 #ifndef __CONFIG__
 #define __CONFIG__
 
-#include "derMate/vector.h"
+#include "mate/vector.h"
 
 #ifdef __cplusplus
 extern "C" {

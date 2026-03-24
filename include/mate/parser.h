@@ -3,9 +3,9 @@
 
 #include <stdarg.h>
 
-#include "derMate/lexer.h"
-#include "derMate/node.h"
-#include "derMate/string.h"
+#include "mate/lexer.h"
+#include "mate/node.h"
+#include "mate/string.h"
 
 #ifdef __cplusplus
 extern "C" {

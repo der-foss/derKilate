@@ -3,8 +3,8 @@
 
 #include <malloc.h>
 
-#include "derMate/bool.h"
-#include "derMate/vector.h"
+#include "mate/bool.h"
+#include "mate/vector.h"
 
 #ifdef __cplusplus
 extern "C" {

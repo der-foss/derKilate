@@ -1,11 +1,11 @@
 cmake_minimum_required(VERSION 3.22)
 
-set(PROJECT_NAME derMate)
+set(PROJECT_NAME mate)
 project(${PROJECT_NAME} LANGUAGES C CXX)
 
 option(BUILD_SHARED_LIBS "Build shared libraries (.so)" ON)
 option(BUILD_STATIC_LIBS "Build static libraries (.a)" ON)
-option(INSTALL "Install libderMate and executable." OFF)
+option(INSTALL "Install libmate and executable." OFF)
 option(ASAN "Enable Address Sanitizer" OFF)
 
 add_compile_options(-Wall -Wextra -Wunused)
@@ -42,19 +42,19 @@ set(LIB_SOURCES
     src/util/native.c)
 
 set(HEADERS
-    include/derMate/config.h
-    include/derMate/environment.h
-    include/derMate/error.h
-    include/derMate/file.h
-    include/derMate/hashmap.h
-    include/derMate/interpreter.h
-    include/derMate/lexer.h
-    include/derMate/node.h
-    include/derMate/parser.h
-    include/derMate/native.h
-    include/derMate/string.h
-    include/derMate/vector.h
-    include/derMate/util/native.h)
+    include/mate/config.h
+    include/mate/environment.h
+    include/mate/error.h
+    include/mate/file.h
+    include/mate/hashmap.h
+    include/mate/interpreter.h
+    include/mate/lexer.h
+    include/mate/node.h
+    include/mate/parser.h
+    include/mate/native.h
+    include/mate/string.h
+    include/mate/vector.h
+    include/mate/util/native.h)
 
 set(EXE_SOURCES
     src/main.c
@@ -67,7 +67,7 @@ if(BUILD_SHARED_LIBS)
     PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
-  add_library(derMate::derMateShared ALIAS ${PROJECT_NAME}_shared)
+  add_library(Mate::MateShared ALIAS ${PROJECT_NAME}_shared)
 endif()
 
 if(BUILD_STATIC_LIBS)
@@ -77,18 +77,14 @@ if(BUILD_STATIC_LIBS)
     PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
-  add_library(derMate::derMate ALIAS ${PROJECT_NAME}_static)
+  add_library(Mate::Mate ALIAS ${PROJECT_NAME}_static)
 endif()
 
 # Main Binary
 add_executable(${PROJECT_NAME} ${EXE_SOURCES})
-set_target_properties(${PROJECT_NAME}
-  PROPERTIES
-  OUTPUT_NAME mate)
-
 target_link_libraries(${PROJECT_NAME}
   PRIVATE
-  derMate::derMate)
+  Mate::Mate)
 
 if(CMAKE_BUILD_TYPE STREQUAL "Debug")
     target_compile_options(${PROJECT_NAME}
@@ -126,6 +122,6 @@ if(INSTALL)
         PATTERN "*.hpp")
 
   install(EXPORT ${PROJECT_NAME}Targets
-    NAMESPACE derMate::
+    NAMESPACE Mate::
     DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME})
 endif()

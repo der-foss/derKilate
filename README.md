@@ -1,4 +1,4 @@
-# derMate (formerly Kilate)
+# Mate (formerly Kilate)
 - Another yet interpreted programming language.
 
 ## Syntax
@@ -10,7 +10,7 @@ work Main(): Int {
 }
 ```
 
-## How to install derMate
+## How to install Mate-Interpreter
 
 ### 🐧 Linux
 
@@ -19,8 +19,8 @@ work Main(): Int {
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/der-foss/derMate
-cd derMate
+git clone https://github.com/kilate-foss/mate
+cd mate
 ```
 
 ### 3. Install
@@ -29,7 +29,7 @@ cd derMate
 ruby build.rb --install
 ```
 
-## How to use derMate
+## How to use Mate
 Below we have the basic interpreter commands.
 
 ## Run

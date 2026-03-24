@@ -1,8 +1,8 @@
 #ifndef __ENVIRONMENT_H__
 #define __ENVIRONMENT_H__
 
-#include "derMate/bool.h"
-#include "derMate/node.h"
+#include "mate/bool.h"
+#include "mate/node.h"
 
 #ifdef __cplusplus
 extern "C" {

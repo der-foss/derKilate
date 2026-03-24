@@ -4,8 +4,8 @@
 #include <stddef.h>
 #include <stdlib.h>
 
-#include "derMate/native.h"
-#include "derMate/node.h"
+#include "mate/native.h"
+#include "mate/node.h"
 
 #ifdef __cplusplus
 extern "C" {

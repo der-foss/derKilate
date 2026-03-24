@@ -20,7 +20,7 @@ def run(*cmd)
 end
 
 def print_help_and_close
-  puts "#{BLUE} Script to compile & install derMate#{RESET}"
+  puts "#{BLUE} Script to compile & install mate#{RESET}"
   puts
   puts "Usage Make.rb <option>"
   puts "Options:"
@@ -104,13 +104,13 @@ end
 
 if !install_arg && run_arg
   if termux_arg
-    FileUtils.cp("derMate", ENV["HOME"])
+    FileUtils.cp("mate", ENV["HOME"])
     Dir.chdir(ENV["HOME"]) do
-      FileUtils.chmod("+x", "derMate")
-      exec("./derMate run main.derMate")
+      FileUtils.chmod("+x", "mate")
+      exec("./mate run main.mate")
     end
   else
-    FileUtils.chmod("+x", "derMate")
-    exec("./derMate run main.derMate")
+    FileUtils.chmod("+x", "mate")
+    exec("./mate run main.mate")
   end
 end

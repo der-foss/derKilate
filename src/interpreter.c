@@ -1,16 +1,16 @@
-#include "derMate/interpreter.h"
+#include "mate/interpreter.h"
 
 #include <alloca.h>
 #include <stdio.h>
 #include <string.h>
 
-#include "derMate/debug.h"
-#include "derMate/environment.h"
-#include "derMate/error.h"
-#include "derMate/hashmap.h"
-#include "derMate/native.h"
-#include "derMate/node.h"
-#include "derMate/parser.h"
+#include "mate/debug.h"
+#include "mate/environment.h"
+#include "mate/error.h"
+#include "mate/hashmap.h"
+#include "mate/native.h"
+#include "mate/node.h"
+#include "mate/parser.h"
 
 interpreter_t *interpreter_make(node_vector_t *nodes_vector,
                                 node_vector_t *native_functions_nodes_vector)
@@ -161,12 +161,12 @@ interpreter_result_t interpreter_run_fn(interpreter_t *self, node_t *func,
 
         printd("158: %s\n", func->function_n.name);
         for (size_t i = 0; i < func->function_n.body->size; i++) {
-                node_t **stderMatePtr =
+                node_t **stmatePtr =
                     (node_t **)vector_get(func->function_n.body, i);
-                if (stderMatePtr != NULL) {
-                        node_t *stderMate = *stderMatePtr;
+                if (stmatePtr != NULL) {
+                        node_t *stmate = *stmatePtr;
                         interpreter_result_t result =
-                            interpreter_run_node(self, stderMate);
+                            interpreter_run_node(self, stmate);
                         if (result.type == IRT_RETURN) {
                                 env_t *to_destroy = self->env;
                                 self->env = old;

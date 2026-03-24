@@ -1,10 +1,10 @@
-#include "derMate/vector.h"
+#include "mate/vector.h"
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-#include "derMate/error.h"
+#include "mate/error.h"
 
 vector_t *vector_make(size_t itemSize)
 {
